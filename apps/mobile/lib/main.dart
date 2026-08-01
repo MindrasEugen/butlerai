@@ -8,6 +8,7 @@ import 'package:butlerai/core/utils/environment.dart';
 import 'package:butlerai/core/services/firebase_service.dart';
 import 'package:butlerai/core/services/notification_service.dart';
 import 'package:butlerai/core/services/supabase_service.dart';
+import 'package:butlerai/test_connection_screen.dart';
 
 Future<void> main() async {
   // Ensure Flutter binding is initialized
@@ -92,7 +93,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const TestConnectionScreen(),
     );
   }
 }
