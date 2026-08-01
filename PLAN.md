@@ -1,7 +1,7 @@
 # 📋 PLAN.md - ButlerAI (Il tuo Maggiordomo Smart Anti-Sprechi)
 
 > **Ultimo aggiornamento:** 2026-08-01  
-> **Stato:** In lavorazione (0%)  
+> **Stato:** In lavorazione (1.9%)  
 > **Autore:** Gino
 
 ---
@@ -220,14 +220,14 @@ butlerai/
 
 ---
 
-### 🚀 **FASE 0 — SETUP** (0/15 task - 0%)
+### 🚀 **FASE 0 — SETUP** (3/15 task - 20%)
 
 #### Epic 0.1: Inizializzazione Progetto
-- [ ] **F0-T1**: Creare repository Git (locale + remoto)
-- [ ] **F0-T2**: Creare struttura cartelle progetto (come da 1.4)
+- [x] **F0-T1**: Creare repository Git (locale + remoto)
+- [x] **F0-T2**: Creare struttura cartelle progetto (come da 1.4)
 - [ ] **F0-T3**: Inizializzare progetto Flutter (`flutter create`)
 - [ ] **F0-T4**: Configurare Flutter per multi-piattaforma (iOS/Android/Web)
-- [ ] **F0-T5**: Creare file `.gitignore` per Flutter + Supabase
+- [x] **F0-T5**: Creare file `.gitignore` per Flutter + Supabase
 
 #### Epic 0.2: Configurazione Backend (Supabase)
 - [ ] **F0-T6**: Creare progetto Supabase
@@ -449,14 +449,14 @@ butlerai/
 
 | Fase | Descrizione | Task | Completati | % | Stato |
 |------|-------------|------|-------------|---|-------|
-| 0 | Setup | 15 | 0 | 0% | ⏳ Non iniziato |
+| 0 | Setup | 15 | 3 | 20% | 🔄 In corso |
 | 1 | MVP | 42 | 0 | 0% | ⏳ Non iniziato |
 | 2 | AI Core | 35 | 0 | 0% | ⏳ Non iniziato |
 | 3 | Recommender | 15 | 0 | 0% | ⏳ Non iniziato |
 | 4 | Monetizzazione | 20 | 0 | 0% | ⏳ Non iniziato |
 | 5 | Hardening | 30 | 0 | 0% | ⏳ Non iniziato |
 
-**Totale:** 157 task | **Completati:** 0 | **% Totale:** 0%
+**Totale:** 157 task | **Completati:** 3 | **% Totale:** ~1.9%
 
 ---
 
@@ -482,10 +482,10 @@ butlerai/
 
 ## 🔄 PROSSIMI PASSI
 
-1. **F0-T1**: Creare repository Git locale
-2. **F0-T2**: Creare struttura cartelle
-3. **F0-T6**: Creare progetto Supabase
+1. **F0-T3**: Inizializzare progetto Flutter (`flutter create`)
+2. **F0-T6**: Creare progetto Supabase
+3. **F0-T4**: Configurare Flutter per multi-piattaforma
 
 ---
 
-*"Un passo alla volta, Gino. Prima il piano, poi l'azione." - Cipolla 🧅*
+*"Un passo alla volta, prima il piano, poi l'azione."*
