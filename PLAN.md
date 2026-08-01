@@ -220,13 +220,13 @@ butlerai/
 
 ---
 
-### 🚀 **FASE 0 — SETUP** (4/15 task - 27%)
+### 🚀 **FASE 0 — SETUP** (5/15 task - 33%)
 
 #### Epic 0.1: Inizializzazione Progetto
 - [x] **F0-T1**: Creare repository Git (locale + remoto)
 - [x] **F0-T2**: Creare struttura cartelle progetto (come da 1.4)
 - [x] **F0-T3**: Inizializzare progetto Flutter (`flutter create`)
-- [ ] **F0-T4**: Configurare Flutter per multi-piattaforma (iOS/Android/Web)
+- [x] **F0-T4**: Configurare Flutter per multi-piattaforma (iOS/Android/Web)
 - [x] **F0-T5**: Creare file `.gitignore` per Flutter + Supabase
 
 #### Epic 0.2: Configurazione Backend (Supabase)
@@ -449,14 +449,14 @@ butlerai/
 
 | Fase | Descrizione | Task | Completati | % | Stato |
 |------|-------------|------|-------------|---|-------|
-| 0 | Setup | 15 | 4 | 27% | 🔄 In corso |
+| 0 | Setup | 15 | 5 | 33% | 🔄 In corso |
 | 1 | MVP | 42 | 0 | 0% | ⏳ Non iniziato |
 | 2 | AI Core | 35 | 0 | 0% | ⏳ Non iniziato |
 | 3 | Recommender | 15 | 0 | 0% | ⏳ Non iniziato |
 | 4 | Monetizzazione | 20 | 0 | 0% | ⏳ Non iniziato |
 | 5 | Hardening | 30 | 0 | 0% | ⏳ Non iniziato |
 
-**Totale:** 157 task | **Completati:** 4 | **% Totale:** ~2.5%
+**Totale:** 157 task | **Completati:** 5 | **% Totale:** ~3.2%
 
 ---
 
@@ -482,8 +482,8 @@ butlerai/
 
 ## 🔄 PROSSIMI PASSI
 
-1. **F0-T4**: Configurare Flutter per multi-piattaforma
-2. **F0-T6**: Creare progetto Supabase
+1. **F0-T6**: Creare progetto Supabase
+2. **F0-T7**: Configurare database PostgreSQL con schema iniziale
 3. **F0-T11**: Configurare variabili ambiente
 
 ---
