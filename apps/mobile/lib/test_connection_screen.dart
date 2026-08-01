@@ -58,8 +58,9 @@ class _TestConnectionScreenState extends State<TestConnectionScreen> {
       final firebaseService = FirebaseService();
       // Just check if it initializes without error
       // Note: Firebase might fail in emulator without google-services.json
+      final token = await firebaseService.getFcmToken();
       setState(() {
-        _firebaseResult = '✅ Firebase inizializzato (token: ${await firebaseService.getFcmToken()?.substring(0, 20) ?? "non disponibile"})';
+        _firebaseResult = '✅ Firebase inizializzato${token != null ? " (token: ${token.substring(0, 20)}...)" : ""}';
       });
     } catch (e) {
       setState(() {

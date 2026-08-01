@@ -21,17 +21,19 @@ class SupabaseService {
       final response = await _supabase
           .from('category')
           .select('id, name')
-          .limit(1)
-          .maybeSingle();
+          .limit(1);
       
-      if (response != null) {
+      if (response is PostgrestListResponse) {
         debugPrint('✓ Supabase connection successful');
-        debugPrint('  First category: ${response['name']}');
-        return true;
-      } else {
-        debugPrint('✓ Supabase connection successful (no categories yet)');
+        if (response.data.isNotEmpty) {
+          debugPrint('  First category: ${response.data.first['name']}');
+        } else {
+          debugPrint('  No categories found (database might be empty)');
+        }
         return true;
       }
+      debugPrint('✓ Supabase connection successful (no data returned)');
+      return true;
     } catch (e) {
       debugPrint('✗ Supabase connection failed: $e');
       return false;
@@ -104,23 +106,17 @@ class SupabaseService {
   }
   
   /// Sign in with Google (requires Google OAuth setup in Supabase)
-  Future<User?> signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
     try {
-      final AuthResponse response = await _supabase.auth.signInWithOAuth(
-        Provider.google,
-        options: const AuthOptions(
-          redirectTo: 'com.butlerai.app://callback',
+      await _supabase.auth.signInWithOAuth(
+        AuthProvider.google,
+        authOptions: AuthOptions(
+          redirectUrl: 'com.butlerai.app://callback',
         ),
       );
-      
-      if (response.user != null) {
-        debugPrint('🔑 User signed in with Google: ${response.user!.email}');
-        return response.user!;
-      }
-      return null;
+      debugPrint('🔑 User signed in with Google');
     } catch (e) {
       debugPrint('Error signing in with Google: $e');
-      return null;
     }
   }
   
@@ -130,15 +126,12 @@ class SupabaseService {
       final response = await _supabase
           .from('category')
           .select('id, name, icon, is_custom, created_at')
-          .order('name', ascending: true)
-          .execute();
+          .order('name', ascending: true);
       
-      if (response.error != null) {
-        debugPrint('Error fetching categories: ${response.error!.message}');
-        return [];
+      if (response is PostgrestListResponse) {
+        return List<Map<String, dynamic>>.from(response.data);
       }
-      
-      return List<Map<String, dynamic>>.from(response.data ?? []);
+      return [];
     } catch (e) {
       debugPrint('Error fetching categories: $e');
       return [];
@@ -151,16 +144,13 @@ class SupabaseService {
       final response = await _supabase
           .from('subscription')
           .select('id, title, category_id, price, currency, billing_cycle, notes')
-          .is_('user_id', null)
-          .order('title', ascending: true)
-          .execute();
+          .isNull('user_id')
+          .order('title', ascending: true);
       
-      if (response.error != null) {
-        debugPrint('Error fetching catalog services: ${response.error!.message}');
-        return [];
+      if (response is PostgrestListResponse) {
+        return List<Map<String, dynamic>>.from(response.data);
       }
-      
-      return List<Map<String, dynamic>>.from(response.data ?? []);
+      return [];
     } catch (e) {
       debugPrint('Error fetching catalog services: $e');
       return [];
@@ -174,15 +164,12 @@ class SupabaseService {
           .from('subscription')
           .select('id, title, category_id, price, currency, billing_cycle, next_renewal, status, notes')
           .eq('user_id', userId)
-          .order('next_renewal', ascending: true)
-          .execute();
+          .order('next_renewal', ascending: true);
       
-      if (response.error != null) {
-        debugPrint('Error fetching user subscriptions: ${response.error!.message}');
-        return [];
+      if (response is PostgrestListResponse) {
+        return List<Map<String, dynamic>>.from(response.data);
       }
-      
-      return List<Map<String, dynamic>>.from(response.data ?? []);
+      return [];
     } catch (e) {
       debugPrint('Error fetching user subscriptions: $e');
       return [];
@@ -226,12 +213,10 @@ class SupabaseService {
             .select()
             .maybeSingle();
         
-        if (response.error != null) {
-          debugPrint('Error updating subscription: ${response.error!.message}');
-          return null;
+        if (response is PostgrestMaybeSingleResponse && response.data != null) {
+          return response.data as Map<String, dynamic>;
         }
-        
-        return response.data as Map<String, dynamic>?;
+        return null;
       } else {
         // Insert new
         final response = await _supabase
@@ -240,12 +225,10 @@ class SupabaseService {
             .select()
             .maybeSingle();
         
-        if (response.error != null) {
-          debugPrint('Error inserting subscription: ${response.error!.message}');
-          return null;
+        if (response is PostgrestMaybeSingleResponse && response.data != null) {
+          return response.data as Map<String, dynamic>;
         }
-        
-        return response.data as Map<String, dynamic>?;
+        return null;
       }
     } catch (e) {
       debugPrint('Error saving subscription: $e');
@@ -256,16 +239,10 @@ class SupabaseService {
   /// Delete a subscription
   Future<bool> deleteSubscription(String id) async {
     try {
-      final response = await _supabase
+      await _supabase
           .from('subscription')
           .delete()
-          .eq('id', id)
-          .execute();
-      
-      if (response.error != null) {
-        debugPrint('Error deleting subscription: ${response.error!.message}');
-        return false;
-      }
+          .eq('id', id);
       
       return true;
     } catch (e) {
@@ -277,16 +254,13 @@ class SupabaseService {
   /// Mark subscription as cancelled
   Future<bool> cancelSubscription(String id) async {
     try {
-      final response = await _supabase
+      await _supabase
           .from('subscription')
-          .update({'status': 'cancelled', 'updated_at': DateTime.now().toIso8601String()})
-          .eq('id', id)
-          .execute();
-      
-      if (response.error != null) {
-        debugPrint('Error cancelling subscription: ${response.error!.message}');
-        return false;
-      }
+          .update({
+            'status': 'cancelled',
+            'updated_at': DateTime.now().toIso8601String()
+          })
+          .eq('id', id);
       
       return true;
     } catch (e) {
@@ -302,15 +276,12 @@ class SupabaseService {
           .from('recommendation')
           .select('id, suggested_service, price, currency, is_affiliate, link, url')
           .eq('cancelled_subscription_id', subscriptionId)
-          .order('price', ascending: true)
-          .execute();
+          .order('price', ascending: true);
       
-      if (response.error != null) {
-        debugPrint('Error fetching recommendations: ${response.error!.message}');
-        return [];
+      if (response is PostgrestListResponse) {
+        return List<Map<String, dynamic>>.from(response.data);
       }
-      
-      return List<Map<String, dynamic>>.from(response.data ?? []);
+      return [];
     } catch (e) {
       debugPrint('Error fetching recommendations: $e');
       return [];
@@ -322,16 +293,14 @@ class SupabaseService {
     try {
       final response = await _supabase
           .from('user_settings')
-          .select('*')
+          .select()
           .eq('user_id', userId)
           .maybeSingle();
       
-      if (response.error != null) {
-        debugPrint('Error fetching user settings: ${response.error!.message}');
-        return null;
+      if (response is PostgrestMaybeSingleResponse && response.data != null) {
+        return response.data as Map<String, dynamic>;
       }
-      
-      return response.data as Map<String, dynamic>?;
+      return null;
     } catch (e) {
       debugPrint('Error fetching user settings: $e');
       return null;
@@ -363,12 +332,10 @@ class SupabaseService {
           .select()
           .maybeSingle();
       
-      if (response.error != null) {
-        debugPrint('Error saving user settings: ${response.error!.message}');
-        return null;
+      if (response is PostgrestMaybeSingleResponse && response.data != null) {
+        return response.data as Map<String, dynamic>;
       }
-      
-      return response.data as Map<String, dynamic>?;
+      return null;
     } catch (e) {
       debugPrint('Error saving user settings: $e');
       return null;

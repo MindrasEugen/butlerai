@@ -14,21 +14,21 @@ class AppConstants {
   // These will be loaded from .env in production
   // For development, you can use hardcoded values
   static String get supabaseUrl => 
-      const String.fromEnvironment('SUPABASE_URL', defaultValue: 'https://tuo-progetto.supabase.co');
+      String.fromEnvironment('SUPABASE_URL', defaultValue: 'https://tuo-progetto.supabase.co');
   
   static String get supabaseAnonKey => 
-      const String.fromEnvironment('SUPABASE_ANON_KEY', defaultValue: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...');
+      String.fromEnvironment('SUPABASE_ANON_KEY', defaultValue: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...');
   
   // Firebase configuration
   static String get fcmServerKey =>
-      const String.fromEnvironment('FCM_SERVER_KEY', defaultValue: 'AAAAxxxxxxx:APA91bxxxxxxxx...');
+      String.fromEnvironment('FCM_SERVER_KEY', defaultValue: 'AAAAxxxxxxx:APA91bxxxxxxxx...');
   
   // API endpoints
   static const String functionsUrl = 'https://tuo-progetto.supabase.co/functions/v1';
   
   // Mistral AI
   static String get mistralApiKey =>
-      const String.fromEnvironment('MISTRAL_API_KEY', defaultValue: 'tuo_api_key_mistral');
+      String.fromEnvironment('MISTRAL_API_KEY', defaultValue: 'tuo_api_key_mistral');
   
   static const String mistralVisionModel = 'pixtral-large-latest';
   static const String mistralTextModel = 'mistral-small-latest';

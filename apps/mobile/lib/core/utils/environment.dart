@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -31,24 +30,24 @@ class Environment {
   
   /// Get environment variable with optional default
   static String getString(String key, {String defaultValue = ''}) {
-    return const String.fromEnvironment(key, defaultValue: defaultValue);
+    return String.fromEnvironment(key, defaultValue: defaultValue);
   }
   
   /// Get environment variable as boolean
   static bool getBool(String key, {bool defaultValue = false}) {
-    final value = getString(key, defaultValue: defaultValue.toString());
+    final value = getString(key);
     return value.toLowerCase() == 'true';
   }
   
   /// Get environment variable as integer
   static int getInt(String key, {int defaultValue = 0}) {
-    final value = getString(key, defaultValue: defaultValue.toString());
+    final value = getString(key);
     return int.tryParse(value) ?? defaultValue;
   }
   
   /// Get environment variable as double
   static double getDouble(String key, {double defaultValue = 0.0}) {
-    final value = getString(key, defaultValue: defaultValue.toString());
+    final value = getString(key);
     return double.tryParse(value) ?? defaultValue;
   }
   
