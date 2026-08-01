@@ -17,22 +17,18 @@ class SupabaseService {
   /// Test connection to Supabase
   Future<bool> testConnection() async {
     try {
-      // Simple test query
+      // Simple test query - in supabase_flutter 2.x, the result is direct
       final response = await _supabase
           .from('category')
           .select('id, name')
           .limit(1);
       
-      if (response is PostgrestListResponse) {
-        debugPrint('✓ Supabase connection successful');
-        if (response.data.isNotEmpty) {
-          debugPrint('  First category: ${response.data.first['name']}');
-        } else {
-          debugPrint('  No categories found (database might be empty)');
-        }
-        return true;
+      debugPrint('✓ Supabase connection successful');
+      if (response.isNotEmpty) {
+        debugPrint('  First category: ${response.first['name']}');
+      } else {
+        debugPrint('  No categories found (database might be empty)');
       }
-      debugPrint('✓ Supabase connection successful (no data returned)');
       return true;
     } catch (e) {
       debugPrint('✗ Supabase connection failed: $e');
@@ -109,10 +105,7 @@ class SupabaseService {
   Future<void> signInWithGoogle() async {
     try {
       await _supabase.auth.signInWithOAuth(
-        AuthProvider.google,
-        authOptions: AuthOptions(
-          redirectUrl: 'com.butlerai.app://callback',
-        ),
+        Provider.google,
       );
       debugPrint('🔑 User signed in with Google');
     } catch (e) {
@@ -128,10 +121,7 @@ class SupabaseService {
           .select('id, name, icon, is_custom, created_at')
           .order('name', ascending: true);
       
-      if (response is PostgrestListResponse) {
-        return List<Map<String, dynamic>>.from(response.data);
-      }
-      return [];
+      return List<Map<String, dynamic>>.from(response);
     } catch (e) {
       debugPrint('Error fetching categories: $e');
       return [];
@@ -144,13 +134,10 @@ class SupabaseService {
       final response = await _supabase
           .from('subscription')
           .select('id, title, category_id, price, currency, billing_cycle, notes')
-          .isNull('user_id')
+          .is_('user_id', null)
           .order('title', ascending: true);
       
-      if (response is PostgrestListResponse) {
-        return List<Map<String, dynamic>>.from(response.data);
-      }
-      return [];
+      return List<Map<String, dynamic>>.from(response);
     } catch (e) {
       debugPrint('Error fetching catalog services: $e');
       return [];
@@ -166,10 +153,7 @@ class SupabaseService {
           .eq('user_id', userId)
           .order('next_renewal', ascending: true);
       
-      if (response is PostgrestListResponse) {
-        return List<Map<String, dynamic>>.from(response.data);
-      }
-      return [];
+      return List<Map<String, dynamic>>.from(response);
     } catch (e) {
       debugPrint('Error fetching user subscriptions: $e');
       return [];
@@ -213,8 +197,8 @@ class SupabaseService {
             .select()
             .maybeSingle();
         
-        if (response is PostgrestMaybeSingleResponse && response.data != null) {
-          return response.data as Map<String, dynamic>;
+        if (response != null) {
+          return response as Map<String, dynamic>;
         }
         return null;
       } else {
@@ -225,8 +209,8 @@ class SupabaseService {
             .select()
             .maybeSingle();
         
-        if (response is PostgrestMaybeSingleResponse && response.data != null) {
-          return response.data as Map<String, dynamic>;
+        if (response != null) {
+          return response as Map<String, dynamic>;
         }
         return null;
       }
@@ -278,10 +262,7 @@ class SupabaseService {
           .eq('cancelled_subscription_id', subscriptionId)
           .order('price', ascending: true);
       
-      if (response is PostgrestListResponse) {
-        return List<Map<String, dynamic>>.from(response.data);
-      }
-      return [];
+      return List<Map<String, dynamic>>.from(response);
     } catch (e) {
       debugPrint('Error fetching recommendations: $e');
       return [];
@@ -297,8 +278,8 @@ class SupabaseService {
           .eq('user_id', userId)
           .maybeSingle();
       
-      if (response is PostgrestMaybeSingleResponse && response.data != null) {
-        return response.data as Map<String, dynamic>;
+      if (response != null) {
+        return response as Map<String, dynamic>;
       }
       return null;
     } catch (e) {
@@ -332,8 +313,8 @@ class SupabaseService {
           .select()
           .maybeSingle();
       
-      if (response is PostgrestMaybeSingleResponse && response.data != null) {
-        return response.data as Map<String, dynamic>;
+      if (response != null) {
+        return response as Map<String, dynamic>;
       }
       return null;
     } catch (e) {
