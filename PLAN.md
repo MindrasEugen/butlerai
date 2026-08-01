@@ -220,7 +220,7 @@ butlerai/
 
 ---
 
-### 🚀 **FASE 0 — SETUP** (10/15 task - 67%)
+### 🚀 **FASE 0 — SETUP** (11/15 task - 73%)
 
 #### Epic 0.1: Inizializzazione Progetto
 - [x] **F0-T1**: Creare repository Git (locale + remoto)
@@ -238,7 +238,7 @@ butlerai/
 
 #### Epic 0.3: Configurazione Ambiente
 - [x] **F0-T11**: Configurare variabili ambiente (`.env`)
-- [ ] **F0-T12**: Installare dipendenze Flutter
+- [x] **F0-T12**: Installare dipendenze Flutter
 - [ ] **F0-T13**: Configurare Firebase per notifiche push (FCM)
 - [ ] **F0-T14**: Creare script seed per dati iniziali
 - [ ] **F0-T15**: Testare connessione backend → client
@@ -449,14 +449,14 @@ butlerai/
 
 | Fase | Descrizione | Task | Completati | % | Stato |
 |------|-------------|------|-------------|---|-------|
-| 0 | Setup | 15 | 10 | 67% | 🔄 In corso |
+| 0 | Setup | 15 | 11 | 73% | 🔄 In corso |
 | 1 | MVP | 42 | 0 | 0% | ⏳ Non iniziato |
 | 2 | AI Core | 35 | 0 | 0% | ⏳ Non iniziato |
 | 3 | Recommender | 15 | 0 | 0% | ⏳ Non iniziato |
 | 4 | Monetizzazione | 20 | 0 | 0% | ⏳ Non iniziato |
 | 5 | Hardening | 30 | 0 | 0% | ⏳ Non iniziato |
 
-**Totale:** 157 task | **Completati:** 10 | **% Totale:** ~6.4%
+**Totale:** 157 task | **Completati:** 11 | **% Totale:** ~7.0%
 
 ---
 
@@ -482,9 +482,9 @@ butlerai/
 
 ## 🔄 PROSSIMI PASSI
 
-1. **F0-T12**: Installare dipendenze Flutter
-2. **F0-T13**: Configurare Firebase per notifiche push (FCM)
-3. **F0-T14**: Creare script seed per dati iniziali
+1. **F0-T13**: Configurare Firebase per notifiche push (FCM)
+2. **F0-T14**: Creare script seed per dati iniziali
+3. **F0-T15**: Testare connessione backend → client
 
 ---
 
