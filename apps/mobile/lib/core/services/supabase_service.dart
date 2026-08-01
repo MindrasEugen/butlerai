@@ -17,7 +17,6 @@ class SupabaseService {
   /// Test connection to Supabase
   Future<bool> testConnection() async {
     try {
-      // Simple test query - in supabase_flutter 2.x, the result is direct
       final response = await _supabase
           .from('category')
           .select('id, name')
@@ -101,18 +100,6 @@ class SupabaseService {
     }
   }
   
-  /// Sign in with Google (requires Google OAuth setup in Supabase)
-  Future<void> signInWithGoogle() async {
-    try {
-      await _supabase.auth.signInWithOAuth(
-        Provider.google,
-      );
-      debugPrint('🔑 User signed in with Google');
-    } catch (e) {
-      debugPrint('Error signing in with Google: $e');
-    }
-  }
-  
   /// Get categories
   Future<List<Map<String, dynamic>>> getCategories() async {
     try {
@@ -131,10 +118,11 @@ class SupabaseService {
   /// Get catalog services (subscriptions with user_id = NULL)
   Future<List<Map<String, dynamic>>> getCatalogServices() async {
     try {
+      // For NULL filtering, use .eq with null or .filter
       final response = await _supabase
           .from('subscription')
           .select('id, title, category_id, price, currency, billing_cycle, notes')
-          .is_('user_id', null)
+          .eq('user_id', null)
           .order('title', ascending: true);
       
       return List<Map<String, dynamic>>.from(response);
