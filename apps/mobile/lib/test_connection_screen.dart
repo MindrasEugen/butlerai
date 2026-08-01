@@ -15,7 +15,6 @@ class _TestConnectionScreenState extends State<TestConnectionScreen> {
   bool _isTesting = false;
   String _supabaseResult = '⏳ Non testato';
   String _firebaseResult = '⏳ Non testato';
-  List<Map<String, dynamic>> _categories = [];
 
   @override
   void initState() {
@@ -36,11 +35,8 @@ class _TestConnectionScreenState extends State<TestConnectionScreen> {
       final connected = await supabaseService.testConnection();
       
       if (connected) {
-        // Try to fetch categories
-        final categories = await supabaseService.getCategories();
         setState(() {
           _supabaseResult = '✅ CONNESSO!';
-          _categories = categories;
         });
       } else {
         setState(() {
@@ -112,27 +108,6 @@ class _TestConnectionScreenState extends State<TestConnectionScreen> {
                 Text(_supabaseResult),
               ],
             ),
-            const SizedBox(height: 10),
-            
-            if (_categories.isNotEmpty) ...[
-              const Text('Categorie caricate:', style: TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 5),
-              Wrap(
-                spacing: 8,
-                children: _categories
-                    .take(10) // Show first 10
-                    .map((cat) => Chip(
-                          label: Text('${cat['name']} ${cat['icon']}'),
-                          avatar: const Icon(Icons.category, size: 16),
-                        ))
-                    .toList(),
-              ),
-              if (_categories.length > 10) ...[
-                const SizedBox(height: 5),
-                Text('+ ${_categories.length - 10} altre...', style: TextStyle(color: Colors.grey)),
-              ],
-            ],
-            
             const SizedBox(height: 30),
             const Divider(),
             const SizedBox(height: 20),

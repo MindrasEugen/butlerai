@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.6
 
   # Supabase integration
-  supabase_flutter: ^2.3.0
+  supabase_flutter: ^2.5.0
 
   # Localization & Internationalization
   flutter_localizations:
