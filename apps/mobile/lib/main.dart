@@ -1,6 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:butlerai/core/constants/app_constants.dart';
+import 'package:butlerai/core/utils/environment.dart';
+import 'package:butlerai/core/services/firebase_service.dart';
+import 'package:butlerai/core/services/notification_service.dart';
+import 'package:butlerai/core/services/supabase_service.dart';
 
-void main() {
+Future<void> main() async {
+  // Ensure Flutter binding is initialized
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Load environment variables
+  try {
+    await dotenv.load(fileName: ".env");
+    await Environment.initialize();
+    debugPrint('✓ Environment loaded');
+  } catch (e) {
+    debugPrint('⚠️ Warning: Could not load .env file: $e');
+    // Use environment variables from build
+  }
+  
+  // Initialize Supabase
+  try {
+    await Supabase.initialize(
+      url: AppConstants.supabaseUrl,
+      anonKey: AppConstants.supabaseAnonKey,
+      debug: AppConstants.debugMode,
+    );
+    debugPrint('✓ Supabase initialized');
+    
+    // Test connection
+    final supabaseService = SupabaseService();
+    final connected = await supabaseService.testConnection();
+    if (connected) {
+      debugPrint('✓ Supabase connection test passed');
+    } else {
+      debugPrint('⚠️ Supabase connection test failed');
+    }
+  } catch (e) {
+    debugPrint('❌ Error initializing Supabase: $e');
+    // Continue even if Supabase fails (for UI development)
+  }
+  
+  // Set preferred orientations
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  
+  // Initialize Firebase
+  try {
+    await Firebase.initializeApp();
+    await FirebaseService().initialize();
+    await NotificationService().initialize();
+    debugPrint('✓ Firebase and Notification services initialized');
+  } catch (e) {
+    debugPrint('⚠️ Error initializing Firebase services: $e');
+    // Continue even if Firebase fails (for development)
+  }
+  
   runApp(const MyApp());
 }
 

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "YOUR_PROJECT_NUMBER",
+    "project_id": "butlerai",
+    "storage_bucket": "butlerai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "YOUR_ANDROID_APP_ID",
+        "android_client_info": {
+          "package_name": "com.butlerai.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "YOUR_API_KEY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
+
+// =============================================
+// ISTRUZIONI PER OTTENERE google-services.json:
+// =============================================
+// 1. Vai su https://console.firebase.google.com/
+// 2. Crea un nuovo progetto chiamato "ButlerAI"
+// 3. Aggiungi un'app Android:
+//    - Package name: com.butlerai.app
+//    - SHA-1: (ottienilo con: keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android)
+// 4. Scarica google-services.json e sostituisci questo file
+// =============================================

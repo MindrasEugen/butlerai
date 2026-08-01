@@ -1,0 +1,29 @@
+# Uncomment this line to define a global platform for your project
+# platform :ios, '12.0'
+
+# CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+# Flutter 3.13 and later have an async alternatives but we need a minimum version check as this
+# has only been implemented on a subset of plugins.
+# To opt out of this, add the following to your Podfile:
+ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+
+project 'Runner', {
+  'Debug' => :debug,
+  'Profile' => :release,
+  'Release' => :release,
+}
+
+installer.pods_project.targets.each do |target|
+  flutter_additional_ios_build_settings(target)
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    flutter_additional_ios_build_settings(target)
+    
+    # Set minimum iOS version
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
+    end
+  end
+end
