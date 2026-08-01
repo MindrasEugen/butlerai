@@ -1,7 +1,7 @@
 # 📋 PLAN.md - ButlerAI (Il tuo Maggiordomo Smart Anti-Sprechi)
 
-> **Ultimo aggiornamento:** 2026-08-01
-> **Stato:** In lavorazione (1.9%)
+> **Ultimo aggiornamento:** 2026-08-01 (Check codice eseguito - Cipolla)
+> **Stato:** In lavorazione (~8.3%)
 > **Autore:** Gino
 
 ---
@@ -220,7 +220,7 @@ butlerai/
 
 ---
 
-### 🚀 **FASE 0 — SETUP** (14/15 task - 93%)
+### 🚀 **FASE 0 — SETUP** (13/15 task - 87%)
 
 #### Epic 0.1: Inizializzazione Progetto
 - [x] **F0-T1**: Creare repository Git (locale + remoto)
@@ -241,7 +241,7 @@ butlerai/
 - [x] **F0-T12**: Installare dipendenze Flutter
 - [x] **F0-T13**: Configurare Firebase per notifiche push (FCM)
 - [x] **F0-T14**: Creare script seed per dati iniziali
-- [x] **F0-T15**: Testare connessione backend → client
+- [🔄] **F0-T15**: Testare connessione backend → client (Bloccato: errore compilazione postgrest)
 
 ---
 
@@ -449,14 +449,14 @@ butlerai/
 
 | Fase | Descrizione | Task | Completati | % | Stato |
 |------|-------------|------|-------------|---|-------|
-| 0 | Setup | 15 | 14 | 93% | 🔄 In corso |
+| 0 | Setup | 15 | 13 | 87% | 🔄 In corso |
 | 1 | MVP | 42 | 0 | 0% | ⏳ Non iniziato |
 | 2 | AI Core | 35 | 0 | 0% | ⏳ Non iniziato |
 | 3 | Recommender | 15 | 0 | 0% | ⏳ Non iniziato |
 | 4 | Monetizzazione | 20 | 0 | 0% | ⏳ Non iniziato |
 | 5 | Hardening | 30 | 0 | 0% | ⏳ Non iniziato |
 
-**Totale:** 157 task | **Completati:** 14 | **% Totale:** ~8.9%
+**Totale:** 157 task | **Completati:** 13 | **% Totale:** ~8.3%
 
 ---
 
@@ -480,9 +480,46 @@ butlerai/
 
 ---
 
+## ⚠️ INCONGRUENZE / NOTE TECNICHE (da risolvere)
+
+### F0-T13 - Firebase FCM
+- ✅ Configurazione codice completata (file, dipendenze, servizi)
+- ⚠️ **File placeholder**: `google-services.json` e `GoogleService-Info.plist` contengono valori di esempio
+  - **Azione richiestA**: Sostituire con file reali dalla console Firebase
+- ⚠️ **Non testato**: Non possibile verificare senza file reali e configurazione Firebase
+
+### F0-T14 - Script Seed
+- ✅ Script creati (`seed_database.sql`, `seed_database.js`, README.md)
+- ✅ Dati di esempio inclusi (15 categorie, 35+ servizi catalogo)
+- ⚠️ **Non eseguiti**: Script non testati su database Supabase reale
+
+### F0-T15 - Test Connessione Backend
+- ✅ Codice implementato (`SupabaseService.testConnection()`)
+- ✅ Inizializzazione Supabase in `main.dart`
+- ❌ **BLOCCATO**: Errore di compilazione con `postgrest 2.7.1` e Dart web compiler
+  - **Soluzione tentata**: Aggiornato `supabase_flutter` a `^2.5.0`
+  - **Azione richiesta**: Eseguire `flutter pub get` e `flutter run` dopo l'aggiornamento
+- ⚠️ **Workaround**: Semplificato `SupabaseService` per usare solo query semplici (senza filtri NULL)
+
+### Problemi di Dipendenza
+- `postgrest: 2.7.1` ha problemi di nullability con Dart web compiler
+- Aggiornato a `supabase_flutter: ^2.5.0` dovrebbe risolvere
+- **Comando da eseguire**: `flutter pub upgrade` per forzare l'aggiornamento
+
+### Configurazioni Mancanti
+- ❌ `.env` con chiavi reali non committato (corretto, è in .gitignore)
+- ❌ Progetto Firebase non creato su console.firebase.google.com
+- ❌ Dati seed non inseriti in database Supabase
+
+---
+
 ## 🔄 PROSSIMI PASSI
 
-1. Iniziare **FASE 1 - MVP** (F1-T1 a F1-T5: Data Model & Storage Locale)
+1. **Risolvere F0-T15**: 
+   - Eseguire `flutter pub upgrade`
+   - Lanciare `flutter run` per verificare connessione Supabase
+   - Se fallisce: provare su device Android/iOS invece di web
+2. Iniziare **FASE 1 - MVP** (F1-T1 a F1-T5: Data Model & Storage Locale)
 
 ---
 
