@@ -1,7 +1,7 @@
 # 📋 PLAN.md - ButlerAI (Il tuo Maggiordomo Smart Anti-Sprechi)
 
-> **Ultimo aggiornamento:** 2026-08-01  
-> **Stato:** In lavorazione (1.9%)  
+> **Ultimo aggiornamento:** 2026-08-01
+> **Stato:** In lavorazione (1.9%)
 > **Autore:** Gino
 
 ---
