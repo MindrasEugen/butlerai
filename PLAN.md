@@ -482,8 +482,7 @@ butlerai/
 
 ## 🔄 PROSSIMI PASSI
 
-1. **F0-T15**: Testare connessione backend → client (waiting: serve execute flutter run)
-2. Iniziare **FASE 1 - MVP**
+1. Iniziare **FASE 1 - MVP** (F1-T1 a F1-T5: Data Model & Storage Locale)
 
 ---
 
