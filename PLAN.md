@@ -220,7 +220,7 @@ butlerai/
 
 ---
 
-### 🚀 **FASE 0 — SETUP** (5/15 task - 33%)
+### 🚀 **FASE 0 — SETUP** (7/15 task - 47%)
 
 #### Epic 0.1: Inizializzazione Progetto
 - [x] **F0-T1**: Creare repository Git (locale + remoto)
@@ -230,11 +230,11 @@ butlerai/
 - [x] **F0-T5**: Creare file `.gitignore` per Flutter + Supabase
 
 #### Epic 0.2: Configurazione Backend (Supabase)
-- [ ] **F0-T6**: Creare progetto Supabase
-- [ ] **F0-T7**: Configurare database PostgreSQL con schema iniziale
+- [x] **F0-T6**: Creare progetto Supabase
+- [x] **F0-T7**: Configurare database PostgreSQL con schema iniziale
 - [ ] **F0-T8**: Configurare Auth provider (Email/Password + Google)
 - [ ] **F0-T9**: Configurare Storage per immagini OCR temporanee
-- [ ] **F0-T10**: Creare RLS policy per tutte le tabelle
+- [x] **F0-T10**: Creare RLS policy per tutte le tabelle
 
 #### Epic 0.3: Configurazione Ambiente
 - [ ] **F0-T11**: Configurare variabili ambiente (`.env`)
@@ -449,14 +449,14 @@ butlerai/
 
 | Fase | Descrizione | Task | Completati | % | Stato |
 |------|-------------|------|-------------|---|-------|
-| 0 | Setup | 15 | 5 | 33% | 🔄 In corso |
+| 0 | Setup | 15 | 7 | 47% | 🔄 In corso |
 | 1 | MVP | 42 | 0 | 0% | ⏳ Non iniziato |
 | 2 | AI Core | 35 | 0 | 0% | ⏳ Non iniziato |
 | 3 | Recommender | 15 | 0 | 0% | ⏳ Non iniziato |
 | 4 | Monetizzazione | 20 | 0 | 0% | ⏳ Non iniziato |
 | 5 | Hardening | 30 | 0 | 0% | ⏳ Non iniziato |
 
-**Totale:** 157 task | **Completati:** 5 | **% Totale:** ~3.2%
+**Totale:** 157 task | **Completati:** 7 | **% Totale:** ~4.5%
 
 ---
 
@@ -482,8 +482,8 @@ butlerai/
 
 ## 🔄 PROSSIMI PASSI
 
-1. **F0-T6**: Creare progetto Supabase
-2. **F0-T7**: Configurare database PostgreSQL con schema iniziale
+1. **F0-T8**: Configurare Auth provider (Email/Password + Google)
+2. **F0-T9**: Configurare Storage per immagini OCR temporanee
 3. **F0-T11**: Configurare variabili ambiente
 
 ---
