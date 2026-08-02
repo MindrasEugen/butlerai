@@ -52,7 +52,9 @@ class _TestConnectionScreenState extends State<TestConnectionScreen> {
     // Test Firebase
     try {
       final firebaseService = FirebaseService();
-      // Just check if it initializes without error
+      // Initialize Firebase service first
+      await firebaseService.initialize();
+      // Now get FCM token
       // Note: Firebase might fail in emulator without google-services.json
       final token = await firebaseService.getFcmToken();
       setState(() {
@@ -195,10 +197,10 @@ class _TestConnectionScreenState extends State<TestConnectionScreen> {
               padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
                 color: _supabaseResult.contains('✅') && _firebaseResult.contains('✅') 
-                    ? Colors.green.withOpacity(0.1) 
+                    ? Colors.green.withValues(alpha: 26) 
                     : _supabaseResult.contains('❌') || _firebaseResult.contains('❌')
-                      ? Colors.red.withOpacity(0.1)
-                      : Colors.orange.withOpacity(0.1),
+                      ? Colors.red.withValues(alpha: 26)
+                      : Colors.orange.withValues(alpha: 26),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(

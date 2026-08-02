@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:butlerai/core/constants/app_constants.dart';
@@ -28,7 +28,7 @@ Future<void> main() async {
   try {
     await Supabase.initialize(
       url: AppConstants.supabaseUrl,
-      anonKey: AppConstants.supabaseAnonKey,
+      publishableKey: AppConstants.supabaseAnonKey,
       debug: AppConstants.debugMode,
     );
     debugPrint('✓ Supabase initialized');
@@ -54,7 +54,7 @@ Future<void> main() async {
   
   // Initialize Firebase
   try {
-    await Firebase.initializeApp();
+    await firebase_core.Firebase.initializeApp();
     await FirebaseService().initialize();
     await NotificationService().initialize();
     debugPrint('✓ Firebase and Notification services initialized');
