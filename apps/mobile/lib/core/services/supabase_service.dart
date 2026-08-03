@@ -10,7 +10,7 @@ class SupabaseService {
   
   SupabaseService._internal();
   
-  final SupabaseClient _supabase = Supabase.instance.client;
+  SupabaseClient get _supabase => Supabase.instance.client;
   
   /// Get Supabase client
   SupabaseClient get client => _supabase;

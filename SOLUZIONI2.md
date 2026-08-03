@@ -1,65 +1,73 @@
-# 🛡️ Soluzioni e Feedback Avanzati - ButlerAI
+# 🛡️ Soluzioni e Feedback Avanzati - ButlerAI (Aggiornamento 2026-08-03)
 
-## 📊 Stato Attuale del Progetto
-Il progetto ha una struttura eccellente e un piano d'azione (`PLAN.md`) estremamente dettagliato. La fase di setup è quasi conclusa (87%), ma ci sono alcuni colli di bottiglia tecnici da risolvere per sbloccare lo sviluppo delle feature MVP.
+## 📊 Stato del Progetto
+Il progetto è progredito al **7.0%** (11/157 task). L'architettura è solida e i servizi base (`Supabase`, `Firebase`, `Notifications`) sono implementati a livello di codice, ma il sistema è attualmente "cieco" e "isolato" a causa di tre blocchi critici.
 
 ---
 
-## 🛠️ Risoluzione Problemi Tecnici (Blockers)
+## 🛑 Risoluzione Blocchi Critici (Priorità Assoluta)
 
-### 1. Errore Postgrest / Supabase su Web (F0-T15)
-L'errore di compilazione con `postgrest 2.7.1` su Dart web è spesso legato a un'incompatibilità tra le versioni dei pacchetti interni di Supabase e il compilatore Dart.
-- **Soluzione Consigliata**: Forza l'aggiornamento dei pacchetti nel file `pubspec.yaml` o esegui:
-  ```bash
-  flutter pub upgrade --major-versions
+### 1. Configurazione Firebase (Blocco F0-T13 / F0-T15)
+L'app crasha o non inizializza correttamente i servizi di notifica perché mancano i descrittori reali del progetto Firebase.
+- **Perché è critico**: Senza `google-services.json` (Android) e `GoogleService-Info.plist` (iOS), `Firebase.initializeApp()` fallirà sempre in produzione/emulatore reale.
+- **Soluzione**: 
+  1. Accedi alla [Firebase Console](https://console.firebase.google.com/).
+  2. Crea un progetto "ButlerAI".
+  3. Aggiungi un'app Android (package name: `com.example.butlerai`) e scarica il file JSON in `apps/mobile/android/app/`.
+  4. Aggiungi un'app iOS e scarica il file PLIST in `apps/mobile/ios/Runner/`.
+  5. Esegui `flutter clean` e `flutter pub get` dopo l'inserimento.
+
+### 2. Dati Seed Mancanti (Blocco Test Connection)
+Il `SupabaseService.testConnection()` cerca dati nella tabella `category`, che attualmente è vuota.
+- **Soluzione Rapida**: Usa lo script SQL già pronto.
+  1. Apri la dashboard di Supabase -> SQL Editor.
+  2. Copia e incolla il contenuto di `scripts/seed_database.sql`.
+  3. Esegui. Questo popolerà le categorie e i servizi necessari per i test.
+
+### 3. Funzioni Serverless (Blocco Fase 2)
+La cartella `backend/supabase/functions/` è vuota. L'intelligenza AI (OCR e Voice) non può funzionare solo lato client per motivi di sicurezza (esposizione API Key).
+- **Consiglio**: Inizia implementando una funzione "Hello World" in TypeScript per testare il deployment di Supabase Edge Functions.
+
+---
+
+## 🛠️ Feedback Tecnico sui Servizi Implementati
+
+### 📱 NotificationService
+Il metodo `scheduleNotification` è commentato. Questo è dovuto alla versione di `flutter_local_notifications`.
+- **Soluzione**: In `pubspec.yaml`, hai la versione `18.0.1`. Assicurati che il codice usi:
+  ```dart
+  androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle
   ```
-  Se l'errore persiste su Web, prova a testare su **Android Emulator** o **iOS Simulator**, poiché i plugin di database spesso hanno comportamenti diversi su Web a causa della mancanza di supporto nativo per alcune operazioni di rete.
+  e aggiungi il permesso `<uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />` in `AndroidManifest.xml` se punti ad Android 12+.
 
-### 2. Configurazione Firebase
-I file `google-services.json` (Android) e `GoogleService-Info.plist` (iOS) sono attualmente dei placeholder. 
-- **Azione**: Scarica i file reali dalla Console Firebase e sostituiscili. Senza di questi, `Firebase.initializeApp()` fallirà o lancerà eccezioni, bloccando l'esecuzione dell'app.
-
----
-
-## 💡 Consigli Architetturali e Best Practices
-
-### 1. State Management (Provider)
-Hai aggiunto `provider` alle dipendenze. È ora di implementare la logica:
-- **Suggerimento**: Crea dei `ChangeNotifier` (o `StateNotifier`) per ogni feature. Ad esempio:
-  - `AuthProvider` per gestire lo stato dell'utente e la sessione Supabase.
-  - `SubscriptionProvider` per la gestione degli abbonamenti.
-- **Inizializzazione**: Avvolgi `MaterialApp` in un `MultiProvider` nel `main.dart`.
-
-### 2. Generazione Codice (Freezed & Hive)
-Hai incluso `freezed` e `hive_generator`. Non dimenticare di eseguire il comando per generare i file `.freezed.dart` e `.g.dart` ogni volta che modifichi i modelli:
-```bash
-dart run build_runner build --delete-conflicting-outputs
-```
-
-### 3. Sincronizzazione Locale (Hive) per Guest Mode
-Per la "Fase 1.1", la gestione del Guest Mode tramite Hive è un'ottima scelta.
-- **Strategia**: Implementa un `SyncService` che, al momento del login dell'utente, prenda i dati da Hive e li carichi su Supabase, cancellando poi la memoria locale o marcandola come "sincronizzata".
-
-### 4. Gestione degli Asset
-Il file `pubspec.yaml` include già i path per gli asset. Assicurati che le cartelle esistano fisicamente:
-- `assets/images/`
-- `assets/fonts/`
-- `assets/translations/` (per l'internazionalizzazione)
+### 📡 FirebaseService
+Il token FCM viene generato correttamente ma non viene salvato.
+- **Azione**: Appena l'utente effettua il login (Fase 1.2), il token deve essere inviato a una tabella `profiles` o `user_settings` su Supabase per permettere l'invio di notifiche mirate dal backend.
 
 ---
 
-## 🚀 Prossimi Passi Suggeriti
+## 💡 Strategia per la Fase 1 (MVP)
 
-1. **Sbloccare F0-T15**: Risolvi il problema della connessione Supabase (usa un emulatore mobile se il web dà problemi).
-2. **Implementare Auth Service**: Crea la logica di login/registrazione reale in `lib/core/services/supabase_service.dart`.
-3. **Modelli Dati**: Inizia a definire i modelli con `freezed` per `User`, `Subscription` e `Category`.
-4. **Onboarding UI**: Inizia a costruire la UI dell'onboarding, che non dipende fortemente dal backend e ti permetterà di vedere progressi visibili velocemente.
+### 1. Modelli Dati (Priorità F1-T1)
+Non aspettare di avere l'auth completa per definire i modelli.
+- Usa `freezed` per creare `Subscription` e `Category`.
+- Esegui `dart run build_runner build --delete-conflicting-outputs` per generare il codice. Questo sbloccherà lo sviluppo dei repository.
+
+### 2. Guest Mode (Hive)
+Implementa Hive prima di Supabase Auth.
+- Questo ti permetterà di testare la Dashboard e l'inserimento manuale immediatamente, senza dipendere dalla connessione internet o dallo stato dell'account.
+
+### 3. State Management
+`Provider` è configurato. Crea subito un `AppProvider` o `AppState` globale per gestire il caricamento iniziale e gli errori globali della connessione.
 
 ---
 
-## 🛡️ Nota sulla Sicurezza
-- **RLS (Row Level Security)**: È fondamentale che in Supabase le RLS siano attive. Ogni tabella (`subscription`, `user_settings`, ecc.) deve avere una policy che permetta l'accesso solo all'utente proprietario (`auth.uid() = user_id`).
-- **Secret Management**: Il file `.env` è correttamente ignorato da Git. Assicurati che ogni membro del team (o tu stesso su altri device) abbia una copia locale del file.
+## 🔄 Prossimi Passi (Action Plan)
+
+1. **Sostituzione Placeholder**: Inserire i file Firebase reali.
+2. **Seed Database**: Eseguire lo script SQL su Supabase.
+3. **Generazione Modelli**: Creare i file `.dart` per gli abbonamenti in `lib/core/models/`.
+4. **Test Finale F0-T15**: Verificare che la schermata di test diventi finalmente **tutta verde**.
 
 ---
-*Creato da ButlerAI Assistant - 2026-08-02*
+*Aggiornamento a cura di ButlerAI Assistant - 2026-08-03*
